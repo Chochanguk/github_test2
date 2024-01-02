@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- 회원가입 --> 
+    <div class="container">
+        <div> 이름 : <input type="text" id="name"/></div>
+        <div>지역 :
+            <select id="city" onchange="changeCity();">
+                <!-- <option value="02">서울</option>
+                <option value="064">제주</option> -->
+            </select>
+        </div>
+        <div> 동네 : 
+            <select id="region_02">
+                <option value="">강남</option>
+                <option value="">서초</option>
+            </select>
+            <select id="region_064" style="display: none;">
+                <option value="">제주시</option>
+                <option value="">서귀포시</option>
+            </select>
+            <select id="region_04" style="display: none;">
+                <option value="">해운대</option>
+                <option value="">광안리</option>
+            </select>
+        </div>
+        <div> 테스트 : <input type="text" id="test1"/></div> <!--var변수 사용-->
+        <div> 테스트 : <input type="text" id="test2"/></div> <!--let변수 사용-->
+        <div> 테스트 : <input type="text" id="test3"/></div> <!--const변수 사용-->
+        <!-- 사용자가 버튼 클릭시 이름, 지역에 대한 value를 처리. regist()함수에서 처리함-->
+        <button type="button" onclick="regist();">등록</button>
+    </div>
+    <!-- j쿼리-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- 자바 스크릅트-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<!-- 대부분 스크립트 언어는 body의 맨마지막에 작성, 이유: 헤더 파일에 스크립트를 넣으면, 
+    웹 브라우저 엔진이 html검사하느라 로딩이 느리므로 html 먼저 로딩 시켜야 사용자 입장에선 빠르다.--> 
+    <script>
+        function regist(){
+            //alert('버튼을 클릭했습니다.'); //경고창
+            //alert(document.getElementById("name").value); //document의 엘레먼트중 id가 name인것의 사용자 입력값을 alert 하겠다.
+            //alert(document.getElementById("city").value);
+            //위의 두개와 동일함.(jquery를 이용함)
+            alert($("#name").val());
+            alert($("#city").val());
+
+            //오브젝트(key:value 형태, 추후 이 오브젝트 전체를 다룰수 있음. ex:데이터 베이스 및 함수 사용)
+            let obj1={
+                 name:"", //하지만 굳이 이렇게 선언 안해도 뒤에서 값을 불러오면 키랑 value를 자동으로 생성가능
+                 city:""
+            };
+            obj1.name=$("#name").val();
+            obj1.city=$("#city").val();
+            let obj2={
+                obj2: {
+
+                },
+                arr:[]
+            }
+            printConsole(obj1);
+            //console.log(obj); //콘솔에서 해당 값을 봄
+        }
+        function loadCity()
+        {
+            //배열은 대괄호
+            let city=[
+                {code:"02",name:"서울"},
+                {code:"064",name:"제주"},
+                {code:"04",name:"부산"}
+
+            ]; 
+            //조건문 반복문
+            for(let i=0;i<city.length;i++)
+            {
+                //city의 첫번째 배열
+                if(i==0) $("#city").append('<option value="'+city[i].code+'"selected>'+city[i].name+'</option>');
+                //city의 두번째 배열
+                else if(i==1) $("#city").append('<option value="'+city[i].code+'"selected>'+city[i].name+'</option>');
+                else $("#city").append('<option value="'+city[i].code+'"selected>'+city[i].name+'</option>');
+            }
+
+            //append는 city라는 id를 가진 element에 내가 지정한 html(''사이)을 추가함
+            // $("#city").append('<option value="02" selected>서울</option>')
+            // $("#city").append('<option value="064" selected>제주</option>')
+        }
+        loadCity();
+        function printConsole(data)
+        {
+            console.log(data);
+        }
+        function changeCity()
+        {
+            /*
+            //선택한 값
+            let city=document.getElementById("city").value;
+            //우선 둘다 안보이게 함.
+            document.getElementById("region_02").style.display="none";
+            document.getElementById("region_064").style.display="none";
+            //클릭 한거에 대한 값 blank 처리하여 보이게 함.
+            document.getElementById("region_"+city).style.display="";
+            */
+            //다음은 같은 기능을 하는 j쿼리로 짠 코드
+            let city=$("#city").val();
+            $("#region_02").hide();
+            $("#region_064").hide();
+            $("#region_04").hide();
+            $("#region_"+city).show();
+        }
+        //var,let,const: 자바스크립트의 변수 3가지 선언법
+        var x=1;
+        x=x+2;
+        document.getElementById("test1").value=x; 
+
+        let y=1;
+        y=y+2;
+        //let y=2; //let은 var과 달리 변수명이 달라야 쓸 수 있음. 즉, 새로 변수명을 작성해야함.
+        document.getElementById("test2").value=y; 
+        //const는 상수 값으로 새로 값 자체가 할당이 안됨
+        const z=1;
+        document.getElementById("test3").value=z; 
+
+        //숫자, 소수점 숫자, 문자, 날짜, 참 or 거짓, 
+        //오브젝트(중괄호로 정의+안에 오브젝트, 배열도 담을 수 있음),배열(대괄호로 정의, 오브젝트도 담을수 있음)
+        let a=1; //숫자
+        a=1.231; //소수점 숫자
+        a="창욱"; //문자
+        a=true; //bool
+
+        // 오브젝트
+        // let obj={
+        //     name:"",
+        //     city:""
+        // };
+    </script>
+</body>
+
+</html>
